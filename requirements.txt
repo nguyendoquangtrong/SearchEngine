@@ -1,0 +1,18 @@
+# --- Lõi AI và Xử lý Vector ---
+sentence-transformers>=2.2.2
+chromadb>=0.4.22
+
+# --- Thuật toán Tìm kiếm Truyền thống ---
+rank_bm25>=0.2.2
+nltk>=3.8.1
+
+# --- Xử lý Dữ liệu và Hình ảnh ---
+Pillow>=10.0.0
+numpy>=1.24.3
+pandas>=2.0.0
+
+# --- Công cụ Dịch thuật ---
+deep-translator>=1.11.4
+
+# --- Đọc file .env (Sẽ dùng cho file config) ---
+python-dotenv>=1.0.0
