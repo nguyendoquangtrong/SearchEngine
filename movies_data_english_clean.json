@@ -902,7 +902,7 @@
     {
         "title": "Spirited Away",
         "origin_name": "Spirited Away",
-        "content": "The story is about a stubborn girl, Chihiro. Chihiro's family moved from the city to the countryside, and Chihiro did not like this change at all. &nbsp;Chihiro's father is a terrible driver and has a \"so bad\" memory, he drove off the road to an abandoned, deserted city. Fascinated by the delicious taste of the food, Chihiro's parents began to \"enjoy it\", but as a result they were turned into fat pigs. As for the empty city, after dark, everything came to life, ghosts began to appear and act. What must the stubborn girl do to save her parents and escape from here?",
+        "content": "The story is about a stubborn girl, Chihiro. Chihiro's family moved from the city to the countryside, and Chihiro did not like this change at all. &nbsp;Bố của Chihiro là một tay lái xe tệ hại và có một trí nhớ &quot;quá tồi&quot;, ông đã lái xe lạc đường đến một thành phố bị bỏ hoang, không bóng người. Bị cuốn hút bởi mùi vị thơm ngon của thức ăn, bố mẹ của Chihiro bắt đầu &quot;thưởng thức&quot;, nhưng kết quả họ bị biến thành những con heo mập. Còn thành phố không người kia, sau khi trời tối, tất cả sống dậy, những bóng ma bắt đầu xuất hiện và hoạt động. What must the stubborn girl do to save her parents and escape from here?",
         "type": "hoathinh",
         "status": "completed",
         "thumb_url": "https://phimimg.com/upload/vod/20250716-1/3be680dcb8b627540ea2703730db511f.jpg",
@@ -1731,7 +1731,7 @@
     {
         "title": "Gladiator II",
         "origin_name": "Gladiator II",
-        "content": "20 years ago, a hero was born and quickly dominated every front of the global box office with pride. His name was &quot;Maximus Decimus Meridius, commander of the army of the North, general of the Felix Legions, loyal to the true emperor Marcus Aurelius, father of a slain child, husband of a slain wife. And I will take revenge, in this life or the next\". And 20 years later, Gladiator II continues with the story fueled by the hatred of the boy Lucius, now a strong gladiator forced to enter the Roman Colosseum when his entire kingdom fell into the hands of the tyrant Emperors.",
+        "content": "20 years ago, a hero was born and quickly dominated every front of the global box office with pride. His name was &quot;Maximus Decimus Meridius, commander of the army of the North, general of the Felix Legions, loyal to the true emperor Marcus Aurelius, father of a slain child, husband of a slain wife. And I will take revenge, in this life or the next\". And 20 years later, Gladiator II continues with the story fueled by the hatred of young Lucius, now a strong gladiator forced to enter the Roman Colosseum when his entire kingdom fell into the hands of the tyrant Emperors.",
         "type": "single",
         "status": "completed",
         "thumb_url": "https://phimimg.com/upload/vod/20241206-1/60a7f92198233ca36dfcb6f5bf53f0da.jpg",
@@ -2026,7 +2026,7 @@
     {
         "title": "Grave Of The Fireflies",
         "origin_name": "Grave Of The Fireflies",
-        "content": "The film is set in the context of the end of World War II in Japan, telling the touching story of the brotherhood of two orphans, Seita and Setsuko. Two brothers lost their mother in a fierce bombing by the US Air Force while their father was fighting for the Japanese Navy. The two children had to struggle amid hunger and the indifference of those around them (including their cousin)...",
+        "content": "The film is set in the context of the end of World War II in Japan, telling the touching story of the brotherhood of two orphans, Seita and Setsuko. Two brothers lost their mother in a fierce bombing by the US Air Force while their father was fighting for the Japanese Navy. The two children struggled amid hunger and the indifference of those around them (including their cousin)...",
         "type": "hoathinh",
         "status": "completed",
         "thumb_url": "https://phimimg.com/upload/vod/20250907-1/bd0c692102c0ed564ffce84f19f100a9.jpg",
@@ -2198,68 +2198,6 @@
                 "filename": "Báo Thù - Oldboy - 2003 - 1080p - Vietsub - Full",
                 "link_embed": "https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20241125/918ZOFi5/index.m3u8",
                 "link_m3u8": "https://s4.phim1280.tv/20241125/918ZOFi5/index.m3u8"
-            }
-        ]
-    },
-    {
-        "title": "Toy Story 4",
-        "origin_name": "Toy Story 4",
-        "content": "Woody is always confident in his own position, and always thinks that his mission is to take care of children, whether it is Andy or Bonnie. So when Bonnie's new toy, Forky, claims to be trash, Woody tries to show Forky that he belongs in the world of toys. But when the toys join Bonnie and her family on a field trip, Woody accidentally meets his long-lost friend Bo Peep. After years of living alone, Bo Peep believes he can have a more adventurous life than making a porcelain toy. When Woody and Bo Peep realize they are toys from two different worlds, their concerns are soon felt.",
-        "type": "hoathinh",
-        "status": "completed",
-        "thumb_url": "https://phimimg.com/upload/vod/20250327-1/24b379875738ae313edb02760be5d948.jpg",
-        "poster_url": "https://phimimg.com/upload/vod/20250327-1/9d555e2e879c059cdac0777046fe4a82.jpg",
-        "is_copyright": false,
-        "sub_docquyen": false,
-        "chieurap": true,
-        "trailer_url": "https://www.youtube.com/watch?v=Pl9JS8-gnWQ",
-        "time": "100 phút",
-        "episode_current": "Full",
-        "episode_total": "1",
-        "quality": "FHD",
-        "lang": "Vietsub + Lồng Tiếng",
-        "year": 2019,
-        "view": 1,
-        "actor": [
-            "Tom Hanks",
-            "Tim Allen",
-            "Annie Potts",
-            "Tony Hale",
-            "Keegan-Michael Key",
-            "Madeleine McGraw",
-            "Christina Hendricks",
-            "Jordan Peele",
-            "Keanu Reeves",
-            "Ally Maki",
-            "Jay Hernandez",
-            "Lori Alan",
-            "Joan Cusack",
-            "Bonnie Hunt",
-            "Kristen Schaal",
-            "Emily Davis",
-            "Wallace Shawn",
-            "John Ratzenberg"
-        ],
-        "director": [
-            "Josh Cooley"
-        ],
-        "category": [
-            "Gia Đình",
-            "Phiêu Lưu",
-            "Hài Hước",
-            "Viễn Tưởng"
-        ],
-        "country": [
-            "Âu Mỹ"
-        ],
-        "episodes": [
-            {
-                "server": "#Hà Nội (Vietsub)",
-                "name": "Full",
-                "slug": "full",
-                "filename": "Câu Chuyện Đồ Chơi 4 - Toy Story 4 - 2019 - 1080p - Vietsub - Full",
-                "link_embed": "https://player.phimapi.com/player/?url=https://s5.phim1280.tv/20250327/pv21qUSA/index.m3u8",
-                "link_m3u8": "https://s5.phim1280.tv/20250327/pv21qUSA/index.m3u8"
             }
         ]
     },
@@ -2500,7 +2438,7 @@
     {
         "title": "Whiplash",
         "origin_name": "Whiplash",
-        "content": "In “Whiplash”, Miles Teller plays Andrew Neyman, a young jazz drummer who is quite ambitious and determined to pursue the pinnacle of his musical career on the East Coast of the United States. Haunted by his father's failed songwriting career, Andrew strives day and night to become a great musician. The second character, Terence Fletcher (Simmons) is a coach famous for his teaching talent but also notorious for his harsh methods, specializing in leading top jazz talents in music schools. Fletcher discovered Andrew and brought the drummer into his own band, changing the young man's life forever. Andrew's passion for perfection causes him to fall into a spiral of obsession, because his cruel teacher...",
+        "content": "Trong “Whiplash”, Miles Teller vào vai Andrew Neyman, một tay trống nhạc jazz trẻ khá tham vọng và quyết tâm theo đuổi đỉnh cao trong sự nghiệp âm nhạc bên bờ biển miền Đông nước Mỹ. Ám ảnh bởi sự nghiệp viết nhạc thất bại của người cha, Andrew ngày đêm nung nấu trở thành một nhạc công vĩ đại. Nhân vật thứ hai, Terence Fletcher (Simmons) là một huấn luyện viên nổi danh nhờ tài năng giảng dạy nhưng cũng khét tiếng bởi các phương pháp khắc nghiệt của ông, chuyên dẫn dắt các tài năng nhạc jazz hàng đầu trong trường nhạc. Fletcher phát hiện ra Andrew và mang tay trống về ban nhạc riêng của mình, thay đổi mãi mãi cuộc đời của chàng trai trẻ. Andrew's passion for perfection causes him to fall into a spiral of obsession, because his cruel teacher...",
         "type": "single",
         "status": "completed",
         "thumb_url": "https://phimimg.com/upload/vod/20231019-1/510da400df5f30192fd50cc087381a00.jpg",
@@ -2561,7 +2499,7 @@
     {
         "title": "Call Me by Your Name",
         "origin_name": "Call Me by Your Name",
-        "content": "Call Me By Your Name is adapted from the novel of the same name by writer André Aciman, set in the 80s. The content focuses on the inspirational relationship between 17-year-old boy Elio (Timothée Chalamet) and 24-year-old student Oliver (Armie Hammer). &nbsp;Oliver is an American archeology student who comes to live in Elio's villa and studies with the boy's father, the professor. Two young men were swept up in a romance amid the beautiful landscape of the Italian countryside during the glorious summer of 1983.",
+        "content": "Call Me By Your Name is adapted from the novel of the same name by writer André Aciman, set in the 80s. The content focuses on the inspirational relationship between 17-year-old boy Elio (Timothée Chalamet) and 24-year-old student Oliver (Armie Hammer). &nbsp;Oliver là sinh viên khảo cổ học người Mỹ đến ở trong biệt thự nhà Elio và theo học giáo sư là bố của cậu bé. Two young men were swept up in a romance amid the beautiful landscape of the Italian countryside during the glorious summer of 1983.",
         "type": "single",
         "status": "completed",
         "thumb_url": "https://phimimg.com/upload/vod/20250526-1/2e537d1c5159d2224a48813b9861b8e1.jpg",
@@ -2887,6 +2825,68 @@
                 "filename": "Star Wars: Thần Lực Thức Tỉnh - Star Wars: The Force Awakens - 2015 - 1080p - Vietsub - Full",
                 "link_embed": "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231112/XPO5xaJ2/index.m3u8",
                 "link_m3u8": "https://s2.phim1280.tv/20231112/XPO5xaJ2/index.m3u8"
+            }
+        ]
+    },
+    {
+        "title": "Toy Story 4",
+        "origin_name": "Toy Story 4",
+        "content": "Woody is always confident in his own position, and always thinks that his mission is to take care of children, whether it is Andy or Bonnie. So when Bonnie's new toy, Forky, claims to be trash, Woody tries to show Forky that he belongs in the world of toys. But when the toys join Bonnie and her family on a field trip, Woody accidentally meets his long-lost friend Bo Peep. After years of living alone, Bo Peep believes he can have a more adventurous life than making a porcelain toy. When Woody and Bo Peep realize they are toys from two different worlds, their concerns are soon felt.",
+        "type": "hoathinh",
+        "status": "completed",
+        "thumb_url": "https://phimimg.com/upload/vod/20250327-1/24b379875738ae313edb02760be5d948.jpg",
+        "poster_url": "https://phimimg.com/upload/vod/20250327-1/9d555e2e879c059cdac0777046fe4a82.jpg",
+        "is_copyright": false,
+        "sub_docquyen": false,
+        "chieurap": true,
+        "trailer_url": "https://www.youtube.com/watch?v=Pl9JS8-gnWQ",
+        "time": "100 phút",
+        "episode_current": "Full",
+        "episode_total": "1",
+        "quality": "FHD",
+        "lang": "Vietsub + Lồng Tiếng",
+        "year": 2019,
+        "view": 1,
+        "actor": [
+            "Tom Hanks",
+            "Tim Allen",
+            "Annie Potts",
+            "Tony Hale",
+            "Keegan-Michael Key",
+            "Madeleine McGraw",
+            "Christina Hendricks",
+            "Jordan Peele",
+            "Keanu Reeves",
+            "Ally Maki",
+            "Jay Hernandez",
+            "Lori Alan",
+            "Joan Cusack",
+            "Bonnie Hunt",
+            "Kristen Schaal",
+            "Emily Davis",
+            "Wallace Shawn",
+            "John Ratzenberg"
+        ],
+        "director": [
+            "Josh Cooley"
+        ],
+        "category": [
+            "Gia Đình",
+            "Phiêu Lưu",
+            "Hài Hước",
+            "Viễn Tưởng"
+        ],
+        "country": [
+            "Âu Mỹ"
+        ],
+        "episodes": [
+            {
+                "server": "#Hà Nội (Vietsub)",
+                "name": "Full",
+                "slug": "full",
+                "filename": "Câu Chuyện Đồ Chơi 4 - Toy Story 4 - 2019 - 1080p - Vietsub - Full",
+                "link_embed": "https://player.phimapi.com/player/?url=https://s5.phim1280.tv/20250327/pv21qUSA/index.m3u8",
+                "link_m3u8": "https://s5.phim1280.tv/20250327/pv21qUSA/index.m3u8"
             }
         ]
     },
@@ -3231,7 +3231,7 @@
     {
         "title": "Braveheart",
         "origin_name": "Braveheart",
-        "content": "Having lost both his father and brother in the war against the English, his beloved wife later died at the hands of an evil lord. William Wallace, with his desire for freedom and the pain of loss, stood up to rally the rebels for the freedom of Scotland. The film is set in the town of Elerslie, Scotland in the 13th century. William Wallace (Mel Gibson) lives with his father (Sandy Nelson) and brother Malcolm (Sean Lawlor) in this small town. The life of father and son was not peaceful because the political situation at that time was extremely complicated. Outside, the British Empire was still dominating, but internally, there was chaos and mutual destruction. The nobles used money and power to usurp the vacant throne due to the king's recent death. But these same nobles also became cards under the cunning and talented English King Edward (Patrick McGoohan). This king gave the Scott nobles many privileges to lull and bribe them.",
+        "content": "Bị mất cả cha và anh trai trong cuộc chiến chống lại quân Anh, người vợ yêu dấu sau này cũng chết dưới tay lãnh chúa độc ác, William Wallace với niềm khát khao tự do và nỗi đau mất mát đã đứng lên tập hợp nghĩa quân nổi dậy vì nền tự do của Scotland. Phim có bối cảnh thị trấn Elerslie, Scotland vào thế kỷ 13. William Wallace (Mel Gibson) sống cùng cha (Sandy Nelson) và người anh trai Malcolm (Sean Lawlor) tại thị trấn nhỏ bé này. The life of father and son was not peaceful because the political situation at that time was extremely complicated. Outside, the British Empire was still dominating, but internally, there was chaos and mutual destruction. The nobles used money and power to usurp the vacant throne due to the king's recent death. Nhưng chính các nhà quý tộc này cũng trở thành các con bài dưới vị vua nước Anh Edward (Patrick McGoohan) thâm hiểm và tài giỏi. This king gave the Scott nobles many privileges to lull and bribe them.",
         "type": "single",
         "status": "completed",
         "thumb_url": "https://phimimg.com/upload/vod/20231211-1/556c43708303dfe03cc1b4714aad3c5d.jpg",
