@@ -9,4 +9,4 @@ env/
 # Cache của Python
 __pycache__/
 *.pyc
-/DataMovie/
+data/DataMovie/

@@ -16,3 +16,5 @@ deep-translator>=1.11.4
 
 # --- Đọc file .env (Sẽ dùng cho file config) ---
 python-dotenv>=1.0.0
+
+tabulate
