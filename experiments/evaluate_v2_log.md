@@ -14,19 +14,19 @@
 ### NHÓM 2: NGỮ NGHĨA & CỐT TRUYỆN
 | Query                             |   BM25 |   CLIP_Text |   SBERT |   CLIP_Image |   PT2 |
 |:----------------------------------|-------:|------------:|--------:|-------------:|------:|
-| two completely opposite famili... |    0   |         1   |       1 |         0    |     1 |
-| a computer hacker learning the... |    1   |         0.5 |       1 |         0    |     0 |
-| a banker wrongly convicted of ... |    0.5 |         1   |       1 |         0.2  |     1 |
-| entering dreams to steal infor... |    0.5 |         0   |       1 |         0.25 |     1 |
-| two gangsters, a boxer, and a ... |    0   |         1   |       1 |         0    |     1 |
-| a girl trying to save her pare... |    1   |         0   |       1 |         0    |     0 |
-| brother and sister struggling ... |    0   |         0.5 |       1 |         0.5  |     1 |
+| two completely opposite famili... |    0   |         1   |       1 |         0    |   1   |
+| a computer hacker learning the... |    1   |         0.5 |       1 |         0    |   0   |
+| a banker wrongly convicted of ... |    0.5 |         1   |       1 |         0.2  |   1   |
+| entering dreams to steal infor... |    0.5 |         0   |       1 |         0.25 |   1   |
+| two gangsters, a boxer, and a ... |    0   |         1   |       1 |         0    |   1   |
+| a girl trying to save her pare... |    1   |         0   |       1 |         0    |   0.2 |
+| brother and sister struggling ... |    0   |         0.5 |       1 |         0.5  |   1   |
 
 ### NHÓM 3: HÌNH ẢNH & BỐI CẢNH
 | Query                             |   BM25 |   CLIP_Text |   SBERT |   CLIP_Image |   PT2 |
 |:----------------------------------|-------:|------------:|--------:|-------------:|------:|
 | a woman screaming in a motel s... |   0.25 |           0 |     0.2 |            0 |     0 |
-| a glowing mechanical suit flyi... |   0.5  |           0 |     1   |            0 |     0 |
+| a glowing mechanical suit flyi... |   0.5  |           0 |     1   |            0 |     1 |
 | giant robots fighting monsters... |   0.5  |           0 |     0.5 |            0 |     0 |
 | seven warriors defending a vil... |   1    |           0 |     1   |            0 |     1 |
 | a dark knight standing on a ta... |   1    |           1 |     1   |            0 |     1 |
@@ -34,9 +34,9 @@
 ### NHÓM 4: BẪY TỪ VỰNG & SAI LỆCH
 | Query                             |   BM25 |   CLIP_Text |   SBERT |   CLIP_Image |   PT2 |
 |:----------------------------------|-------:|------------:|--------:|-------------:|------:|
-| a guy with short term memory l... |    1   |           1 |       1 |          0   |  1    |
-| two magicians competing and sa... |    0.2 |           0 |       1 |          0   |  1    |
-| I am going to make him an offe... |    1   |           0 |       0 |          0.2 |  0.25 |
+| a guy with short term memory l... |    1   |           1 |       1 |          0   |     1 |
+| two magicians competing and sa... |    0.2 |           0 |       1 |          0   |     1 |
+| I am going to make him an offe... |    1   |           0 |       0 |          0.2 |     0 |
 
 ## Tổng kết Điểm số đa chiều
 
@@ -46,4 +46,16 @@
 | CLIP_Text       | 0.3    |          0.07 |       0.35 |
 | SBERT           | 0.685  |          0.15 |       0.75 |
 | CLIP_Image      | 0.0867 |          0.06 |       0.3  |
-| 🚀 PT2           | 0.4792 |          0.11 |       0.55 |
+| 🚀 PT2           | 0.5267 |          0.12 |       0.6  |
+
+## Confusion Matrix: Intent kỳ vọng vs Intent router dự đoán
+
+(Không tính Nhóm 4 -- nhóm bẫy từ vựng cố tình không có 1 đáp án đúng)
+
+| Kỳ vọng      |   exact quote |   movie plot |   visual scene |
+|:-------------|--------------:|-------------:|---------------:|
+| exact quote  |             5 |            0 |              0 |
+| movie plot   |             0 |            6 |              1 |
+| visual scene |             0 |            1 |              4 |
+
+Độ chính xác router: 15/17 = 88.24%

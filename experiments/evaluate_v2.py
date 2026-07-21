@@ -72,6 +72,15 @@ class AblationEvaluator:
              "expected": ["The Godfather"]}
         ]
 
+        # Ánh xạ Nhóm -> intent "đúng" kỳ vọng, dùng để dựng confusion matrix.
+        # Nhóm 4 KHÔNG có 1 intent "đúng" duy nhất -- đây là nhóm cố tình bẫy
+        # (từ vựng trùng nhưng ý khác), nên tách riêng, không tính đúng/sai.
+        self.group_to_expected_intent = {
+            "Nhóm 1: Trích dẫn chính xác": "exact quote",
+            "Nhóm 2: Ngữ nghĩa & Cốt truyện": "movie plot",
+            "Nhóm 3: Hình ảnh & Bối cảnh": "visual scene",
+        }
+
     # ==========================================
     # CÁC HÀM TÍNH ĐIỂM (EVALUATION METRICS)
     # ==========================================
@@ -102,6 +111,7 @@ class AblationEvaluator:
         print("-" * 110)
 
         results = []
+        confusion_records = []
 
         # Khởi tạo Dictionary theo dõi cả 3 chỉ số cho 5 hệ thống
         models = ["BM25_Only", "CLIP_Text_Only", "SBERT_Only", "CLIP_Image_Only", "Multimodal_PT2"]
@@ -119,6 +129,18 @@ class AblationEvaluator:
                 "CLIP_Image_Only": self.engine.search_image_only(query, top_n=top_n),
                 "Multimodal_PT2": self.engine.search(query, system_type="PT2", top_n=top_n)
             }
+
+            # Ghi lại intent mà router V2 vừa dự đoán cho câu này (được set
+            # làm attribute trong lúc gọi engine.search() ở trên) để dựng
+            # confusion matrix so với intent kỳ vọng theo nhóm.
+            predicted_intent = getattr(self.engine, "last_intent", None) or "(none/default)"
+            expected_intent = self.group_to_expected_intent.get(test["group"], "(nhóm bẫy - không có 1 đáp án)")
+            confusion_records.append({
+                "group": test["group"],
+                "expected_intent": expected_intent,
+                "predicted_intent": predicted_intent,
+            })
+
 
             # Tính và cộng dồn điểm cho từng hệ thống
             row_result = {
@@ -175,6 +197,32 @@ class AblationEvaluator:
         print(summary_df.to_markdown(index=False))
         print("=" * 110 + "\n")
 
+        # ==========================================
+        # 🔀 CONFUSION MATRIX: intent kỳ vọng vs intent router dự đoán
+        # ==========================================
+        conf_df = pd.DataFrame(confusion_records)
+        # Chỉ tính confusion matrix trên các nhóm có 1 intent kỳ vọng rõ ràng
+        # (loại Nhóm 4 -- nhóm bẫy cố tình không có đáp án đúng duy nhất).
+        clean_conf_df = conf_df[conf_df["expected_intent"] != "(nhóm bẫy - không có 1 đáp án)"]
+
+        confusion_table = None
+        if not clean_conf_df.empty:
+            confusion_table = pd.crosstab(
+                clean_conf_df["expected_intent"], clean_conf_df["predicted_intent"],
+                rownames=["Kỳ vọng"], colnames=["Router dự đoán"], dropna=False,
+            )
+            print("=" * 110)
+            print("🔀 CONFUSION MATRIX: INTENT KỲ VỌNG (theo nhóm) vs INTENT ROUTER DỰ ĐOÁN")
+            print("   (không tính Nhóm 4 -- nhóm bẫy từ vựng cố tình không có 1 đáp án đúng)")
+            print("=" * 110)
+            print(confusion_table.to_markdown())
+
+            n_clean = len(clean_conf_df)
+            n_correct = (clean_conf_df["expected_intent"] == clean_conf_df["predicted_intent"]).sum()
+            print(f"\n➡️  Độ chính xác router (accuracy) trên {n_clean} câu có đáp án rõ: "
+                  f"{n_correct}/{n_clean} = {n_correct / n_clean:.2%}\n")
+        print("=" * 110 + "\n")
+
         # Lưu log
         log_content = f"# Kết quả Đánh giá V2 (Zero-Shot Routing)\n\n"
         log_content += f"## Bảng So Sánh MRR Từng Câu\n\n"
@@ -184,6 +232,14 @@ class AblationEvaluator:
         
         log_content += f"## Tổng kết Điểm số đa chiều\n\n"
         log_content += summary_df.to_markdown(index=False) + "\n"
+
+        if confusion_table is not None:
+            log_content += f"\n## Confusion Matrix: Intent kỳ vọng vs Intent router dự đoán\n\n"
+            log_content += "(Không tính Nhóm 4 -- nhóm bẫy từ vựng cố tình không có 1 đáp án đúng)\n\n"
+            log_content += confusion_table.to_markdown() + "\n"
+            n_clean = len(clean_conf_df)
+            n_correct = (clean_conf_df["expected_intent"] == clean_conf_df["predicted_intent"]).sum()
+            log_content += f"\nĐộ chính xác router: {n_correct}/{n_clean} = {n_correct / n_clean:.2%}\n"
 
         log_path = os.path.join(os.path.dirname(__file__), "evaluate_v2_log.md")
         with open(log_path, "w", encoding="utf-8") as f:
