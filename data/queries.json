@@ -1,0 +1,285 @@
+[
+    {
+        "group": "Nhóm 1: Trích dẫn chính xác",
+        "query": "I am going to make him an offer he can't refuse",
+        "expected": [
+            "The Godfather"
+        ]
+    },
+    {
+        "group": "Nhóm 1: Trích dẫn chính xác",
+        "query": "My mama always said life was like a box of chocolates",
+        "expected": [
+            "Forrest Gump"
+        ]
+    },
+    {
+        "group": "Nhóm 1: Trích dẫn chính xác",
+        "query": "I ate his liver with some fava beans and a nice Chianti",
+        "expected": [
+            "The Silence of the Lambs"
+        ]
+    },
+    {
+        "group": "Nhóm 1: Trích dẫn chính xác",
+        "query": "Keep your friends close, but your enemies closer",
+        "expected": [
+            "The Godfather Part III"
+        ]
+    },
+    {
+        "group": "Nhóm 1: Trích dẫn chính xác",
+        "query": "Here's looking at you, kid",
+        "expected": [
+            "Casablanca"
+        ]
+    },
+    {
+        "group": "Nhóm 1: Trích dẫn chính xác",
+        "query": "May the Force be with you",
+        "expected": [
+            "Star Wars"
+        ]
+    },
+    {
+        "group": "Nhóm 1: Trích dẫn chính xác",
+        "query": "You talking to me?",
+        "expected": [
+            "Taxi Driver"
+        ]
+    },
+    {
+        "group": "Nhóm 1: Trích dẫn chính xác",
+        "query": "I'll be back",
+        "expected": [
+            "The Terminator",
+            "Terminator 2: Judgment Day"
+        ]
+    },
+    {
+        "group": "Nhóm 1: Trích dẫn chính xác",
+        "query": "Frankly, my dear, I don't give a damn",
+        "expected": [
+            "Gone with the Wind"
+        ]
+    },
+    {
+        "group": "Nhóm 1: Trích dẫn chính xác",
+        "query": "I see dead people",
+        "expected": [
+            "The Sixth Sense"
+        ]
+    },
+    {
+        "group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+        "query": "two completely opposite families one extremely rich and the other always lives in poverty",
+        "expected": [
+            "Parasite"
+        ]
+    },
+    {
+        "group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+        "query": "a computer hacker learning the truth about his simulated reality",
+        "expected": [
+            "The Matrix"
+        ]
+    },
+    {
+        "group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+        "query": "a banker wrongly convicted of murder escapes prison",
+        "expected": [
+            "The Shawshank Redemption"
+        ]
+    },
+    {
+        "group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+        "query": "entering dreams to steal information from a target",
+        "expected": [
+            "Inception"
+        ]
+    },
+    {
+        "group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+        "query": "two gangsters, a boxer, and a stolen briefcase",
+        "expected": [
+            "Pulp Fiction"
+        ]
+    },
+    {
+        "group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+        "query": "a girl trying to save her parents who turned into pigs",
+        "expected": [
+            "Spirited Away"
+        ]
+    },
+    {
+        "group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+        "query": "brother and sister struggling to survive during World War II in Japan",
+        "expected": [
+            "Grave Of The Fireflies"
+        ]
+    },
+    {
+        "group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+        "query": "a young lion cub is tricked into thinking he killed his father",
+        "expected": [
+            "The Lion King"
+        ]
+    },
+    {
+        "group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+        "query": "a group of people carrying a powerful ring to a volcano to destroy it",
+        "expected": [
+            "The Lord of the Rings: The Return of the King",
+            "The Lord of the Rings: The Fellowship of the Ring"
+        ]
+    },
+    {
+        "group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+        "query": "an astronaut left behind on a distant planet trying to survive and return home",
+        "expected": [
+            "The Martian"
+        ]
+    },
+    {
+        "group": "Nhóm 3: Hình ảnh & Bối cảnh",
+        "query": "a woman screaming in a motel shower black and white",
+        "expected": [
+            "Psycho"
+        ]
+    },
+    {
+        "group": "Nhóm 3: Hình ảnh & Bối cảnh",
+        "query": "a glowing mechanical suit flying in the sky",
+        "expected": [
+            "Iron Man 3"
+        ]
+    },
+    {
+        "group": "Nhóm 3: Hình ảnh & Bối cảnh",
+        "query": "giant robots fighting monsters in the ocean",
+        "expected": [
+            "Pacific Rim: Uprising"
+        ]
+    },
+    {
+        "group": "Nhóm 3: Hình ảnh & Bối cảnh",
+        "query": "seven warriors defending a village in the rain",
+        "expected": [
+            "Seven Samurai"
+        ]
+    },
+    {
+        "group": "Nhóm 3: Hình ảnh & Bối cảnh",
+        "query": "a dark knight standing on a tall building in Gotham",
+        "expected": [
+            "The Dark Knight"
+        ]
+    },
+    {
+        "group": "Nhóm 3: Hình ảnh & Bối cảnh",
+        "query": "a large ship hitting an iceberg in the cold ocean at night",
+        "expected": [
+            "Titanic"
+        ]
+    },
+    {
+        "group": "Nhóm 3: Hình ảnh & Bối cảnh",
+        "query": "dinosaurs running through a green theme park",
+        "expected": [
+            "Jurassic Park"
+        ]
+    },
+    {
+        "group": "Nhóm 3: Hình ảnh & Bối cảnh",
+        "query": "a yellow brick road in a magical colorful land",
+        "expected": [
+            "The Wizard of Oz"
+        ]
+    },
+    {
+        "group": "Nhóm 3: Hình ảnh & Bối cảnh",
+        "query": "people fighting with glowing light swords in space",
+        "expected": [
+            "Star Wars"
+        ]
+    },
+    {
+        "group": "Nhóm 3: Hình ảnh & Bối cảnh",
+        "query": "a man running through a battlefield saving injured soldiers without a weapon",
+        "expected": [
+            "Hacksaw Ridge"
+        ]
+    },
+    {
+        "group": "Nhóm 4: Bẫy từ vựng & Sai lệch",
+        "query": "a guy with short term memory loss taking polaroid pictures",
+        "expected": [
+            "Memento"
+        ]
+    },
+    {
+        "group": "Nhóm 4: Bẫy từ vựng & Sai lệch",
+        "query": "two magicians competing and sabotaging each other",
+        "expected": [
+            "The Prestige"
+        ]
+    },
+    {
+        "group": "Nhóm 4: Bẫy từ vựng & Sai lệch",
+        "query": "I am going to make him an offer he cannot refuse",
+        "expected": [
+            "The Godfather"
+        ]
+    },
+    {
+        "group": "Nhóm 4: Bẫy từ vựng & Sai lệch",
+        "query": "a boxing robot controlled by a young boy and his father",
+        "expected": [
+            "Real Steel"
+        ]
+    },
+    {
+        "group": "Nhóm 4: Bẫy từ vựng & Sai lệch",
+        "query": "an alien creature bursting out of a man's chest on a spaceship",
+        "expected": [
+            "Alien"
+        ]
+    },
+    {
+        "group": "Nhóm 4: Bẫy từ vựng & Sai lệch",
+        "query": "a man painting his face like a clown and causing chaos in the city",
+        "expected": [
+            "Joker",
+            "The Dark Knight"
+        ]
+    },
+    {
+        "group": "Nhóm 4: Bẫy từ vựng & Sai lệch",
+        "query": "a detective trying to catch a serial killer who uses the seven deadly sins",
+        "expected": [
+            "Se7en"
+        ]
+    },
+    {
+        "group": "Nhóm 4: Bẫy từ vựng & Sai lệch",
+        "query": "a piano player hiding from the nazis during the holocaust",
+        "expected": [
+            "The Pianist"
+        ]
+    },
+    {
+        "group": "Nhóm 4: Bẫy từ vựng & Sai lệch",
+        "query": "a young girl assassin learning the trade from a professional hitman",
+        "expected": [
+            "Léon: The Professional"
+        ]
+    },
+    {
+        "group": "Nhóm 4: Bẫy từ vựng & Sai lệch",
+        "query": "a soldier gladiator fighting in the colosseum to avenge his family",
+        "expected": [
+            "Gladiator"
+        ]
+    }
+]

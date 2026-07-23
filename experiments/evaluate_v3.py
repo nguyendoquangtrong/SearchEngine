@@ -1,0 +1,254 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import pandas as pd
+from src.v3.search_engine import MovieSearchEngine
+
+class AblationEvaluator:
+    def __init__(self):
+        print("⏳ Đang khởi động AI Engine cho Ablation Study (V3 - Image Captions)...")
+        self.engine = MovieSearchEngine()
+
+        # ==========================================
+        # 🧪 BỘ TEST CASE ĐÃ THÊM NHÃN "group"
+        # ==========================================
+        self.test_cases = [
+            # ----------------------------------------------------------------
+            # NHÓM 1: TRÍCH DẪN CHÍNH XÁC (Khảo nghiệm sức mạnh BM25)
+            # ----------------------------------------------------------------
+            {"group": "Nhóm 1: Trích dẫn chính xác", "query": "I am going to make him an offer he can't refuse",
+             "expected": ["The Godfather"]},
+            {"group": "Nhóm 1: Trích dẫn chính xác", "query": "My mama always said life was like a box of chocolates",
+             "expected": ["Forrest Gump"]},
+            {"group": "Nhóm 1: Trích dẫn chính xác", "query": "I ate his liver with some fava beans and a nice Chianti",
+             "expected": ["The Silence of the Lambs"]},
+            {"group": "Nhóm 1: Trích dẫn chính xác", "query": "Keep your friends close, but your enemies closer",
+             "expected": ["The Godfather Part III"]},
+            {"group": "Nhóm 1: Trích dẫn chính xác", "query": "Here's looking at you, kid", "expected": ["Casablanca"]},
+
+            # ----------------------------------------------------------------
+            # NHÓM 2: TÌM THEO NGỮ NGHĨA / CỐT TRUYỆN (Sân khấu của SBERT)
+            # ----------------------------------------------------------------
+            {"group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+             "query": "two completely opposite families one extremely rich and the other always lives in poverty",
+             "expected": ["Parasite"]},
+            {"group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+             "query": "a computer hacker learning the truth about his simulated reality", "expected": ["The Matrix"]},
+            {"group": "Nhóm 2: Ngữ nghĩa & Cốt truyện", "query": "a banker wrongly convicted of murder escapes prison",
+             "expected": ["The Shawshank Redemption"]},
+            {"group": "Nhóm 2: Ngữ nghĩa & Cốt truyện", "query": "entering dreams to steal information from a target",
+             "expected": ["Inception"]},
+            {"group": "Nhóm 2: Ngữ nghĩa & Cốt truyện", "query": "two gangsters, a boxer, and a stolen briefcase",
+             "expected": ["Pulp Fiction"]},
+            {"group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+             "query": "a girl trying to save her parents who turned into pigs", "expected": ["Spirited Away"]},
+            {"group": "Nhóm 2: Ngữ nghĩa & Cốt truyện",
+             "query": "brother and sister struggling to survive during World War II in Japan",
+             "expected": ["Grave Of The Fireflies"]},
+
+            # ----------------------------------------------------------------
+            # NHÓM 3: TÌM THEO THỊ GIÁC / BỐI CẢNH (Quyền năng của CLIP Image)
+            # ----------------------------------------------------------------
+            {"group": "Nhóm 3: Hình ảnh & Bối cảnh", "query": "a woman screaming in a motel shower black and white",
+             "expected": ["Psycho"]},
+            {"group": "Nhóm 3: Hình ảnh & Bối cảnh", "query": "a glowing mechanical suit flying in the sky",
+             "expected": ["Iron Man 3"]},
+            {"group": "Nhóm 3: Hình ảnh & Bối cảnh", "query": "giant robots fighting monsters in the ocean",
+             "expected": ["Pacific Rim: Uprising"]},
+            {"group": "Nhóm 3: Hình ảnh & Bối cảnh", "query": "seven warriors defending a village in the rain",
+             "expected": ["Seven Samurai"]},
+            {"group": "Nhóm 3: Hình ảnh & Bối cảnh", "query": "a dark knight standing on a tall building in Gotham",
+             "expected": ["The Dark Knight"]},
+
+            # ----------------------------------------------------------------
+            # NHÓM 4: BẪY TỪ VỰNG / TÊN RIÊNG / SAI LỆCH (Test độ lì của RRF)
+            # ----------------------------------------------------------------
+            {"group": "Nhóm 4: Bẫy từ vựng & Sai lệch",
+             "query": "a guy with short term memory loss taking polaroid pictures", "expected": ["Memento"]},
+            {"group": "Nhóm 4: Bẫy từ vựng & Sai lệch", "query": "two magicians competing and sabotaging each other",
+             "expected": ["The Prestige"]},
+            {"group": "Nhóm 4: Bẫy từ vựng & Sai lệch", "query": "I am going to make him an offer he cannot refuse",
+             "expected": ["The Godfather"]}
+        ]
+
+        # Ánh xạ Nhóm -> intent "đúng" kỳ vọng, dùng để dựng confusion matrix.
+        # Nhóm 4 KHÔNG có 1 intent "đúng" duy nhất -- đây là nhóm cố tình bẫy
+        # (từ vựng trùng nhưng ý khác), nên tách riêng, không tính đúng/sai.
+        self.group_to_expected_intent = {
+            "Nhóm 1: Trích dẫn chính xác": "exact quote",
+            "Nhóm 2: Ngữ nghĩa & Cốt truyện": "movie plot",
+            "Nhóm 3: Hình ảnh & Bối cảnh": "visual scene",
+        }
+
+    # ==========================================
+    # CÁC HÀM TÍNH ĐIỂM (EVALUATION METRICS)
+    # ==========================================
+    def get_mrr(self, predicted, expected):
+        """Tính chỉ số Mean Reciprocal Rank"""
+        for i, p in enumerate(predicted):
+            if p in expected:
+                return 1.0 / (i + 1)
+        return 0.0
+
+    def get_precision_at_k(self, predicted, expected, k=5):
+        """Tính Precision@K"""
+        top_k = predicted[:k]
+        hits = sum(1 for p in top_k if p in expected)
+        return hits / k if k > 0 else 0.0
+
+    def get_recall_at_k(self, predicted, expected, k=5):
+        """Tính Recall@K"""
+        top_k = predicted[:k]
+        hits = sum(1 for p in top_k if p in expected)
+        return hits / len(expected) if expected else 0.0
+
+    # ==========================================
+    # CHẠY ĐÁNH GIÁ
+    # ==========================================
+    def run_ablation_study(self, top_n=5):
+        print(f"\n🚀 ĐANG CHẠY ABLATION STUDY (So sánh 5 luồng - MRR, Precision@{top_n}, Recall@{top_n})...")
+        print("-" * 110)
+
+        results = []
+        confusion_records = []
+
+        # Khởi tạo Dictionary theo dõi cả 3 chỉ số cho 6 hệ thống
+        models = ["BM25_Only", "CLIP_Text_Only", "SBERT_Only", "CLIP_Image_Only", "Caption_SBERT_Only", "Multimodal_PT3"]
+        metrics = {model: {"mrr": 0.0, "p_at_k": 0.0, "r_at_k": 0.0} for model in models}
+
+        for idx, test in enumerate(self.test_cases):
+            query = test["query"]
+            expected = test["expected"]
+
+            # Chạy 6 luồng độc lập
+            preds = {
+                "BM25_Only": self.engine.search_bm25_only(query, top_n=top_n),
+                "CLIP_Text_Only": self.engine.search_clip_text_only(query, top_n=top_n),
+                "SBERT_Only": self.engine.search_sbert_only(query, top_n=top_n),
+                "CLIP_Image_Only": self.engine.search_image_only(query, top_n=top_n),
+                "Caption_SBERT_Only": self.engine.search_caption_only(query, top_n=top_n),
+                "Multimodal_PT3": self.engine.search(query, system_type="PT2", top_n=top_n)
+            }
+
+            # Ghi lại intent mà router V3 vừa dự đoán cho câu này (được set
+            # làm attribute trong lúc gọi engine.search() ở trên) để dựng
+            # confusion matrix so với intent kỳ vọng theo nhóm.
+            predicted_intent = getattr(self.engine, "last_intent", None) or "(none/default)"
+            expected_intent = self.group_to_expected_intent.get(test["group"], "(nhóm bẫy - không có 1 đáp án)")
+            confusion_records.append({
+                "group": test["group"],
+                "expected_intent": expected_intent,
+                "predicted_intent": predicted_intent,
+            })
+
+
+            # Tính và cộng dồn điểm cho từng hệ thống
+            row_result = {
+                "Phân Vùng": test["group"],
+                "Query": query[:30] + "..."
+            }
+
+            for model_name, pred_list in preds.items():
+                mrr = self.get_mrr(pred_list, expected)
+                p_at_k = self.get_precision_at_k(pred_list, expected, k=top_n)
+                r_at_k = self.get_recall_at_k(pred_list, expected, k=top_n)
+
+                metrics[model_name]["mrr"] += mrr
+                metrics[model_name]["p_at_k"] += p_at_k
+                metrics[model_name]["r_at_k"] += r_at_k
+
+                # Chỉ lưu MRR vào bảng chi tiết để tránh bảng quá to gãy giao diện
+                short_name = model_name.replace("_Only", "").replace("Multimodal_", "")
+                row_result[short_name] = round(mrr, 2)
+
+            results.append(row_result)
+            print(f"[{idx + 1:02d}/{len(self.test_cases)}] Đã test xong: '{query[:30]}...'")
+
+        # In Bảng so sánh chi tiết (Theo MRR)
+        df = pd.DataFrame(results)
+        print("\n" + "=" * 110)
+        print("📊 BẢNG SO SÁNH MRR TỪNG CÂU QUERY (CHI TIẾT)")
+        print("=" * 110)
+
+        grouped = df.groupby("Phân Vùng", sort=False)
+        for name, group in grouped:
+            print(f"\n📌 {name.upper()}")
+            print(group.drop(columns=["Phân Vùng"]).to_markdown(index=False))
+
+        # ==========================================
+        # In Tổng kết điểm 3 Chiều (MRR, Precision, Recall)
+        # ==========================================
+        n = len(self.test_cases)
+        print("\n" + "=" * 110)
+        print(f"🏆 TỔNG KẾT ĐIỂM SỐ ĐA CHIỀU (TRUNG BÌNH {n} CÂU TRUY VẤN)")
+        print("=" * 110)
+
+        # Tạo bảng tóm tắt tổng
+        summary_data = []
+        for model in models:
+            summary_data.append({
+                "Luồng Mô Hình": model.replace("_Only", "").replace("Multimodal_", "🚀 "),
+                "MRR": f"{metrics[model]['mrr'] / n:.4f}",
+                f"Precision@{top_n}": f"{metrics[model]['p_at_k'] / n:.4f}",
+                f"Recall@{top_n}": f"{metrics[model]['r_at_k'] / n:.4f}"
+            })
+
+        summary_df = pd.DataFrame(summary_data)
+        print(summary_df.to_markdown(index=False))
+        print("=" * 110 + "\n")
+
+        # ==========================================
+        # 🔀 CONFUSION MATRIX: intent kỳ vọng vs intent router dự đoán
+        # ==========================================
+        conf_df = pd.DataFrame(confusion_records)
+        # Chỉ tính confusion matrix trên các nhóm có 1 intent kỳ vọng rõ ràng
+        # (loại Nhóm 4 -- nhóm bẫy cố tình không có đáp án đúng duy nhất).
+        clean_conf_df = conf_df[conf_df["expected_intent"] != "(nhóm bẫy - không có 1 đáp án)"]
+
+        confusion_table = None
+        if not clean_conf_df.empty:
+            confusion_table = pd.crosstab(
+                clean_conf_df["expected_intent"], clean_conf_df["predicted_intent"],
+                rownames=["Kỳ vọng"], colnames=["Router dự đoán"], dropna=False,
+            )
+            print("=" * 110)
+            print("🔀 CONFUSION MATRIX: INTENT KỲ VỌNG (theo nhóm) vs INTENT ROUTER DỰ ĐOÁN")
+            print("   (không tính Nhóm 4 -- nhóm bẫy từ vựng cố tình không có 1 đáp án đúng)")
+            print("=" * 110)
+            print(confusion_table.to_markdown())
+
+            n_clean = len(clean_conf_df)
+            n_correct = (clean_conf_df["expected_intent"] == clean_conf_df["predicted_intent"]).sum()
+            print(f"\n➡️  Độ chính xác router (accuracy) trên {n_clean} câu có đáp án rõ: "
+                  f"{n_correct}/{n_clean} = {n_correct / n_clean:.2%}\n")
+        print("=" * 110 + "\n")
+
+        # Lưu log
+        log_content = f"# Kết quả Đánh giá V3 (Image Captions)\n\n"
+        log_content += f"## Bảng So Sánh MRR Từng Câu\n\n"
+        for name, group in grouped:
+            log_content += f"### {name.upper()}\n"
+            log_content += group.drop(columns=["Phân Vùng"]).to_markdown(index=False) + "\n\n"
+        
+        log_content += f"## Tổng kết Điểm số đa chiều\n\n"
+        log_content += summary_df.to_markdown(index=False) + "\n"
+
+        if confusion_table is not None:
+            log_content += f"\n## Confusion Matrix: Intent kỳ vọng vs Intent router dự đoán\n\n"
+            log_content += "(Không tính Nhóm 4 -- nhóm bẫy từ vựng cố tình không có 1 đáp án đúng)\n\n"
+            log_content += confusion_table.to_markdown() + "\n"
+            n_clean = len(clean_conf_df)
+            n_correct = (clean_conf_df["expected_intent"] == clean_conf_df["predicted_intent"]).sum()
+            log_content += f"\nĐộ chính xác router: {n_correct}/{n_clean} = {n_correct / n_clean:.2%}\n"
+
+        log_path = os.path.join(os.path.dirname(__file__), "evaluate_v3_log.md")
+        with open(log_path, "w", encoding="utf-8") as f:
+            f.write(log_content)
+        print(f"📁 Đã lưu kết quả chi tiết vào: {log_path}\n")
+
+
+
+if __name__ == "__main__":
+    evaluator = AblationEvaluator()
+    evaluator.run_ablation_study(top_n=5)
