@@ -25,9 +25,9 @@
 ### NHÓM 3: HÌNH ẢNH & BỐI CẢNH
 | Query                             |   BM25 |   CLIP_Text |   SBERT |   CLIP_Image |   Caption_SBERT |   PT3 |
 |:----------------------------------|-------:|------------:|--------:|-------------:|----------------:|------:|
-| a woman screaming in a motel s... |   0.25 |           1 |     0.2 |            0 |            0.25 |  0    |
-| a glowing mechanical suit flyi... |   0.5  |           0 |     1   |            0 |            0.5  |  1    |
-| giant robots fighting monsters... |   0.5  |           0 |     0.5 |            0 |            1    |  0.25 |
+| a woman screaming in a motel s... |   0.25 |           1 |     0.2 |            0 |            0.25 |  0.25 |
+| a glowing mechanical suit flyi... |   0.5  |           0 |     1   |            0 |            0.5  |  0.5  |
+| giant robots fighting monsters... |   0.5  |           0 |     0.5 |            0 |            1    |  1    |
 | seven warriors defending a vil... |   1    |           0 |     1   |            0 |            0.5  |  1    |
 | a dark knight standing on a ta... |   1    |           1 |     1   |            0 |            1    |  1    |
 
@@ -40,14 +40,14 @@
 
 ## Tổng kết Điểm số đa chiều
 
-| Luồng Mô Hình   |    MRR |   Precision@5 |   Recall@5 |
-|:----------------|-------:|--------------:|-----------:|
-| BM25            | 0.61   |          0.17 |       0.85 |
-| CLIP_Text       | 0.425  |          0.09 |       0.45 |
-| SBERT           | 0.735  |          0.16 |       0.8  |
-| CLIP_Image      | 0.0867 |          0.06 |       0.3  |
-| Caption_SBERT   | 0.3658 |          0.12 |       0.6  |
-| 🚀 PT3           | 0.85   |          0.19 |       0.95 |
+| Luồng Mô Hình   |    MRR |   Hit@1 |   Hit@5 |
+|:----------------|-------:|--------:|--------:|
+| BM25            | 0.61   |    0.45 |    0.85 |
+| CLIP_Text       | 0.425  |    0.4  |    0.45 |
+| SBERT           | 0.735  |    0.7  |    0.8  |
+| CLIP_Image      | 0.0867 |    0    |    0.3  |
+| Caption_SBERT   | 0.3658 |    0.25 |    0.6  |
+| 🚀 PT3           | 0.875  |    0.8  |    1    |
 
 ## Confusion Matrix: Intent kỳ vọng vs Intent router dự đoán
 

@@ -91,23 +91,16 @@ class AblationEvaluator:
                 return 1.0 / (i + 1)
         return 0.0
 
-    def get_precision_at_k(self, predicted, expected, k=5):
-        """Tính Precision@K"""
+    def get_hit_at_k(self, predicted, expected, k=5):
+        """Tính Hit@K"""
         top_k = predicted[:k]
-        hits = sum(1 for p in top_k if p in expected)
-        return hits / k if k > 0 else 0.0
-
-    def get_recall_at_k(self, predicted, expected, k=5):
-        """Tính Recall@K"""
-        top_k = predicted[:k]
-        hits = sum(1 for p in top_k if p in expected)
-        return hits / len(expected) if expected else 0.0
+        return 1.0 if any(p in expected for p in top_k) else 0.0
 
     # ==========================================
     # CHẠY ĐÁNH GIÁ
     # ==========================================
     def run_ablation_study(self, top_n=5):
-        print(f"\n🚀 ĐANG CHẠY ABLATION STUDY (So sánh 5 luồng - MRR, Precision@{top_n}, Recall@{top_n})...")
+        print(f"\n🚀 ĐANG CHẠY ABLATION STUDY (So sánh 5 luồng - MRR, Hit@1, Hit@{top_n})...")
         print("-" * 110)
 
         results = []
@@ -115,7 +108,7 @@ class AblationEvaluator:
 
         # Khởi tạo Dictionary theo dõi cả 3 chỉ số cho 6 hệ thống
         models = ["BM25_Only", "CLIP_Text_Only", "SBERT_Only", "CLIP_Image_Only", "Caption_SBERT_Only", "Multimodal_PT3"]
-        metrics = {model: {"mrr": 0.0, "p_at_k": 0.0, "r_at_k": 0.0} for model in models}
+        metrics = {model: {"mrr": 0.0, "hit_at_1": 0.0, "hit_at_k": 0.0} for model in models}
 
         for idx, test in enumerate(self.test_cases):
             query = test["query"]
@@ -151,12 +144,12 @@ class AblationEvaluator:
 
             for model_name, pred_list in preds.items():
                 mrr = self.get_mrr(pred_list, expected)
-                p_at_k = self.get_precision_at_k(pred_list, expected, k=top_n)
-                r_at_k = self.get_recall_at_k(pred_list, expected, k=top_n)
+                hit_at_1 = self.get_hit_at_k(pred_list, expected, k=1)
+                hit_at_k = self.get_hit_at_k(pred_list, expected, k=top_n)
 
                 metrics[model_name]["mrr"] += mrr
-                metrics[model_name]["p_at_k"] += p_at_k
-                metrics[model_name]["r_at_k"] += r_at_k
+                metrics[model_name]["hit_at_1"] += hit_at_1
+                metrics[model_name]["hit_at_k"] += hit_at_k
 
                 # Chỉ lưu MRR vào bảng chi tiết để tránh bảng quá to gãy giao diện
                 short_name = model_name.replace("_Only", "").replace("Multimodal_", "")
@@ -177,7 +170,7 @@ class AblationEvaluator:
             print(group.drop(columns=["Phân Vùng"]).to_markdown(index=False))
 
         # ==========================================
-        # In Tổng kết điểm 3 Chiều (MRR, Precision, Recall)
+        # In Tổng kết điểm 3 Chiều (MRR, Hit@1, Hit@K)
         # ==========================================
         n = len(self.test_cases)
         print("\n" + "=" * 110)
@@ -190,8 +183,8 @@ class AblationEvaluator:
             summary_data.append({
                 "Luồng Mô Hình": model.replace("_Only", "").replace("Multimodal_", "🚀 "),
                 "MRR": f"{metrics[model]['mrr'] / n:.4f}",
-                f"Precision@{top_n}": f"{metrics[model]['p_at_k'] / n:.4f}",
-                f"Recall@{top_n}": f"{metrics[model]['r_at_k'] / n:.4f}"
+                "Hit@1": f"{metrics[model]['hit_at_1'] / n:.4f}",
+                f"Hit@{top_n}": f"{metrics[model]['hit_at_k'] / n:.4f}"
             })
 
         summary_df = pd.DataFrame(summary_data)

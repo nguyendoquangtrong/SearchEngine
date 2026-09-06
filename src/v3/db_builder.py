@@ -11,12 +11,14 @@ from deep_translator import GoogleTranslator
 # Gọi đồ nghề từ 2 file trước
 from core.config import *
 from core.helpers import make_folder_name, normalize_name, tokenize
+from src.v3.caption_generator import VLMCaptionGenerator
 
 class DatabaseBuilder:
     def __init__(self):
         self.translator = GoogleTranslator(source='vi', target='en')
         self.clip_model = None
         self.sbert_model = None
+        self.caption_generator = None
 
     def clean_and_translate(self):
         print("\n" + "="*50)
@@ -62,7 +64,7 @@ class DatabaseBuilder:
         print(f"\n🎉 TỔNG KẾT BƯỚC 1: Đã dọn xong {len(cleaned_data)} phim hợp lệ!")
         return cleaned_data
 
-    def build_vector_db(self, cleaned_data):
+    def build_vector_db(self, cleaned_data, generate_captions: bool = False, force_vlm: bool = False):
         print("\n" + "="*50)
         print("⏳ BƯỚC 2: TẢI MÔ HÌNH VÀ KHỞI TẠO CHROMADB...")
         print("="*50)
@@ -147,6 +149,15 @@ class DatabaseBuilder:
         caption_docs, caption_metas, caption_ids = [], [], []
         valid_ext = ('.jpg', '.jpeg', '.png', '.webp')
         
+        # Nếu được yêu cầu sinh caption mới từ VLM (Images -> VLM -> Caption)
+        if generate_captions:
+            print("\n🤖 TÍCH HỢP VLM (BLIP-2): Khởi tạo quy trình sinh Caption tự động...")
+            try:
+                if self.caption_generator is None:
+                    self.caption_generator = VLMCaptionGenerator()
+            except Exception as e:
+                print(f"⚠️ Không thể khởi tạo VLM Generator (Cần transformers/torch): {e}")
+
         for i, item in enumerate(cleaned_data):
             title_goc = item.get('title', 'Unknown')
             target_folder = folder_map.get(normalize_name(title_goc))
@@ -154,8 +165,20 @@ class DatabaseBuilder:
             cap_count = 0
             
             if target_folder:
+                movie_folder_path = os.path.join(MOVIE_FOLDERS, target_folder)
+
+                # Sinh Caption qua VLM nếu file chưa tồn tại hoặc force_vlm=True
+                if generate_captions and self.caption_generator:
+                    caption_file = os.path.join(movie_folder_path, f"{target_folder}_captions.txt")
+                    if not os.path.exists(caption_file) or force_vlm:
+                        self.caption_generator.process_movie(
+                            movie_path=movie_folder_path,
+                            movie_name=target_folder,
+                            overwrite=force_vlm
+                        )
+
                 # Quét hình ảnh
-                pic_folder = os.path.join(MOVIE_FOLDERS, target_folder, 'picture')
+                pic_folder = os.path.join(movie_folder_path, 'picture')
                 if os.path.exists(pic_folder):
                     for f_name in os.listdir(pic_folder):
                         f_path = os.path.join(pic_folder, f_name)
@@ -166,7 +189,6 @@ class DatabaseBuilder:
                             img_count += 1
                             
                 # Quét captions
-                movie_folder_path = os.path.join(MOVIE_FOLDERS, target_folder)
                 caption_file = os.path.join(movie_folder_path, f"{target_folder}_captions.txt")
                 if os.path.exists(caption_file):
                     with open(caption_file, 'r', encoding='utf-8') as cf:
@@ -224,6 +246,6 @@ class DatabaseBuilder:
 
         print("\n🎉 HOÀN TẤT! DATABASE ĐÃ ĐƯỢC XÂY DỰNG BẰNG SLIDING WINDOW XONG!")
 
-    def execute(self):
+    def execute(self, generate_captions: bool = False, force_vlm: bool = False):
         cleaned_data = self.clean_and_translate()
-        self.build_vector_db(cleaned_data)
+        self.build_vector_db(cleaned_data, generate_captions=generate_captions, force_vlm=force_vlm)

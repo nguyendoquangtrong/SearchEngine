@@ -233,7 +233,8 @@ class MovieSearchEngine:
             ctx = re.sub(r"\s+", " ", ctx).strip()
             return ctx or raw_ctx
 
-        final_scores = []
+        # Bước 1: Tính điểm CE thô cho tất cả các ứng viên
+        ce_scores_raw = {}
         for m in candidates:
             # Ưu tiên ngữ cảnh từ Caption nếu intent là visual scene, 
             # Ưu tiên ngữ cảnh từ Text (Plot Summary) nếu intent là movie plot.
@@ -250,13 +251,26 @@ class MovieSearchEngine:
             else:                   
                 ctx = get_fallback_context(m)
 
-            rerank_score = self.rerank_model.predict([query_text, f"Movie: {m}. Content: {ctx}"])
-            rerank_score_raw = rerank_score
+            ce_score = self.rerank_model.predict([query_text, f"Movie: {m}. Content: {ctx}"])
+            ce_scores_raw[m] = float(ce_score)
 
-            # 1. Thêm điểm RRF (nhân hệ số nhỏ) vào điểm Rerank để bảo tồn thứ tự 
-            # ban đầu nếu CrossEncoder không tự tin (đặc biệt hữu ích cho Exact Quote).
-            # RRF score thường từ 0 -> ~3.0. Nhân 0.5 giúp nó có tác động từ 0 -> 1.5,
-            # đủ để phá vỡ các mức điểm nhiễu ngang nhau (vd toàn -11.x).
+        # Bước 2: Chuyển điểm CE thành Hạng (Rank) và tính RRF
+        # Sắp xếp candidate theo điểm CE giảm dần
+        ce_ranked_candidates = sorted(ce_scores_raw.keys(), key=lambda k: ce_scores_raw[k], reverse=True)
+        
+        # Tạo từ điển lưu hạng của CE (1-indexed)
+        ce_ranks = {m: rank + 1 for rank, m in enumerate(ce_ranked_candidates)}
+
+        final_scores = []
+        w_ce = 1.0 # Trọng số cho kênh CE
+        
+        for m in candidates:
+            # Điểm dung hợp: RRF_CE
+            rrf_ce_score = w_ce / (60 + ce_ranks[m])
+            
+            rerank_score = rrf_ce_score
+            
+            # 1. Thêm điểm RRF (nhân hệ số nhỏ) vào điểm Rerank đã chuẩn hoá
             rerank_score += (rrf.get(m, 0) * 0.5)
 
             # 2. Thay vì bonus cho kênh ảnh thô (CLIP_Image - cực nhiễu), ta bonus
@@ -266,7 +280,7 @@ class MovieSearchEngine:
                 if cap_rank == 0:   rerank_score += 0.3
                 elif cap_rank < 3:  rerank_score += 0.15
                 elif cap_rank < 10: rerank_score += 0.05
-                print(f"   🖼️  [Cap Bonus] '{m}': raw={rerank_score_raw:.3f}, "
+                print(f"   🖼️  [Cap Bonus] '{m}': raw={ce_scores_raw[m]:.3f}, ce_rank={ce_ranks[m]}, "
                       f"cap_rank={cap_rank}, final={rerank_score:.3f}")
 
             final_scores.append((m, rerank_score))

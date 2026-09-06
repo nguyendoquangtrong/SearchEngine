@@ -24,14 +24,23 @@ def run_app():
         print("2. 🚀 Tìm kiếm TỔNG HỢP (Hệ thống hoàn chỉnh RRF + Rerank)")
         print("3. 🧠 So sánh SBERT vs CLIP Text (Test Ngữ nghĩa)")
         print("4. 🔑 Tìm kiếm thuần BM25 (Test Từ khóa/Quote)")
-        print("5. 👁️ Tìm kiếm thuần CLIP Image (Test tìm cảnh phim)")
+        print("5. 👁️ So sánh Tìm Cảnh: CLIP Image thô vs Image Caption (SBERT)")
         print("6. ❌ Thoát")
 
         choice = input("👉 Chọn chế độ test (1-6): ").strip()
 
         if choice == '1':
+            print("\n⚙️ CHỌN CHẾ ĐỘ NẠP DATABASE:")
+            print("  a. Build Nhanh (Sử dụng các file Caption .txt có sẵn)")
+            print("  b. Build Đầy Đủ (Chạy VLM BLIP-2 sinh Caption mới từ ảnh -> SBERT -> ChromaDB)")
+            sub_choice = input("👉 Lựa chọn (a/b, mặc định 'a'): ").strip().lower()
+
             builder = DatabaseBuilder()
-            builder.execute()
+            if sub_choice == 'b':
+                force_vlm = input("  ❓ Bạn có muốn ép ghi đè toàn bộ Caption cũ không? (y/n, mặc định 'n'): ").strip().lower() == 'y'
+                builder.execute(generate_captions=True, force_vlm=force_vlm)
+            else:
+                builder.execute(generate_captions=False)
 
         elif choice in ['2', '3', '4', '5']:
             print("⏳ Đang khởi động AI Engine...")
@@ -47,9 +56,8 @@ def run_app():
                     pt1 = engine.search(user_q, system_type="PT1", top_n=5)
                     pt2 = engine.search(user_q, system_type="PT2", top_n=5)
                     show_table(f"TỔNG HỢP: '{user_q.upper()}'", {
-                        "Hạng": [f"Top {i + 1}" for i in range(5)],
-                        "PT1 (Clip text + image, bm25)": pt1 + ["-"] * (5 - len(pt1)),
-                        "PT2 (Clip image, sbert, bm25)": pt2 + ["-"] * (5 - len(pt2))
+                        "Hạng": [f"Top {i + 1}" for i in range(5)],                        
+                        "V3 (BM25 + SBERT + Caption)": pt2 + ["-"] * (5 - len(pt2))
                     })
 
                 # CHẾ ĐỘ 3: ĐẤU TRƯỜNG NGỮ NGHĨA SBERT VÀ CLIP TEXT
@@ -70,16 +78,18 @@ def run_app():
                         "Phim tìm được": bm25_res + ["-"] * (5 - len(bm25_res))
                     })
 
-                # CHẾ ĐỘ 5: CHỈ TÌM ẢNH BẰNG CLIP IMAGE
+                # CHẾ ĐỘ 5: SO SÁNH TÌM ẢNH BẰNG CLIP IMAGE VÀ IMAGE CAPTION
                 elif choice == '5':
                     img_res = engine.search_image_only(user_q, top_n=5)
-                    show_table(f"CLIP IMAGE SEARCH: '{user_q.upper()}'", {
+                    cap_res = engine.search_caption_only(user_q, top_n=5)
+                    show_table(f"CLIP IMAGE vs IMAGE CAPTION: '{user_q.upper()}'", {
                         "Hạng": [f"Top {i + 1}" for i in range(5)],
-                        "Phim có cảnh khớp nhất": img_res + ["-"] * (5 - len(img_res))
+                        "CLIP Image thô (ViT-B-32)": img_res + ["-"] * (5 - len(img_res)),
+                        "Image Caption (BLIP-2 + SBERT)": cap_res + ["-"] * (5 - len(cap_res))
                     })
 
         elif choice == '6':
-            print("👋 Tạm biệt sếp! Chúc sếp bảo vệ đồ án điểm tuyệt đối!")
+            print("👋 Cảm ơn bạn đã sử dụng hệ thống! Hẹn gặp lại!")
             break
         else:
             print("⚠️ Lựa chọn không hợp lệ!")
