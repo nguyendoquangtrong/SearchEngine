@@ -1,0 +1,47 @@
+﻿query_id,self_reported_target,review_decision,content_support,quote_fidelity,verification,reviewer_comment
+P001_G2,Interstellar,keep,partly_supported,not_applicable,🟡,Cooper bị mắc trong tesseract/không gian nhiều chiều và tìm cách thoát/liên lạc với Murph. “Dad character do anything to get out 4D dimension” diễn đạt rất kém nhưng target đúng.
+P002_G1,The Green Mile,keep,partly_supported,approximate,🟡,Có. John Coffey nói rằng anh sợ bóng tối trước khi bị hành hình. Query rút gọn từ lời thoại dài hơn: “...don't put me in the dark. I's afraid of the dark.” ([IMDb][1])
+P004_G1,City of God,keep,partly_supported,verbatim,🟡,"Ý/câu về “if you run, the beast catches you; if you stay, the beast eats you” gắn đúng với City of God. Nên coi là paraphrase/translation variant chứ không nên đòi exact transcript. ([Medium][2])"
+P006_G1,Pacific Rim: Uprising,keep,supported,approximate,✅,Đúng phần mở đầu Jake nói về thế hệ sinh ra trong chiến tranh với Kaiju và các “monsters” con người tạo ra để chống lại chúng.
+P007_G3,Inception,keep,partly_supported,not_applicable,🟡,Có spinning top trên bàn. Nhưng “endlessly ... without wobbling” không hoàn toàn đúng: phim cố ý cho top bắt đầu có dấu hiệu không ổn định rồi cắt cảnh. Script cũng mô tả top spinning/wobbling ở các cảnh khác.
+P008_G3,Parasite,keep,supported,not_applicable,✅,"Có cảnh gia đình Kim chạy xuống rất nhiều cầu thang trong mưa, từ khu nhà giàu về khu thấp và căn semi-basement bị ngập. ([Google Sites][3])"
+P009_G3,The Godfather,exclude,contradicted,not_applicable,❌,Tôi không xác nhận được cảnh Don Vito già mặc black vest hút cigar. Đây đáng nghi nhất. Nguồn phân tích còn ghi Vito của Brando không có cảnh hút thuốc rõ ràng trong Part I. ([note（ノート）][4])
+P010_G1,Avatar: Fire and Ash,keep,partly_supported,verbatim,🟡,"Không nên dựa vào excerpt hiện tại. Query có vẻ gắn với tagline/dialogue của phim nhưng cần transcript chính xác của bản phim để coi là exact quote. Tôi sẽ để paraphrase/review, không exact-confirm."
+P013_G1,The Matrix,keep,supported,verbatim,✅,"Exact/near-exact quote. Morpheus: “Unfortunately, no one can be told what the Matrix is. You have to see it for yourself.” ([Matrix Fans][5])"
+P013_G3,The Matrix,keep,supported,not_applicable,✅,"Đúng cảnh Morpheus đưa red pill và blue pill trên hai lòng bàn tay, kính của ông phản chiếu Neo/các viên thuốc."
+P015_G3,Psycho,keep,supported,not_applicable,✅,"Đúng hình ảnh mang tính biểu tượng: Bates house trên đồi phía sau/ở trên Bates Motel, không khí u ám."
+P018_G2,Gone with the Wind,keep,supported,not_applicable,✅,"Đúng tóm tắt Scarlett O'Hara: Southern belle, Civil War, cố sống sót và ám ảnh tình yêu với Ashley Wilkes. ([IMDb][6])"
+P020_G3,12 Angry Men,keep,supported,not_applicable,✅,Đúng cảnh rất rõ. Juror 8 lấy một con switchblade gần như y hệt và cắm xuống bàn cạnh con dao tang vật. ([Check Please][7])
+P021_G1,Seven Samurai,keep,partly_supported,approximate,🟡,"Ý farmers ultimately win đúng với kết thúc/phát biểu nổi tiếng của Kambei, nhưng wording query “The farmers are the winners” có thể khác subtitle edition. Nên giữ dưới dạng paraphrase."
+P022_G1,Spirited Away,keep,supported,approximate,✅,"Có. Zeniba nói một variant của “Once you've met someone, you never really forget them...”. Transcript/subtitle khác nhau đôi chút. ([IMDb][8])"
+P022_G3,Spirited Away,keep,partly_supported,not_applicable,🟡,"Haku và Chihiro có cảnh nắm tay/chạy qua khu vực cầu, nhưng mô tả “full of strange spirits” hơi ghép chi tiết. Target vẫn hợp lý."
+P024_G3,Parasite,keep,supported,not_applicable,✅,"Đúng. Căn semi-basement của Kim bị nước cống/ngập, trong khi mưa đối với gia đình giàu gần như chỉ là một sự kiện nhẹ nhàng quanh căn nhà/lawn. ([Film Comment][9])"
+P025_G3,Terminator 2,keep,supported,not_applicable,✅,Đúng cảnh cuối: T-800 hạ mình xuống molten steel và giơ thumbs-up trước khi biến mất.
+P027_G1,Iron Man 3,exclude,contradicted,not_found,❌,Không phải lời thoại trong Iron Man 3 theo script/movie transcript mà tôi xác nhận được. Đây giống câu quote được gán cho Iron Man trên Internet hơn là dialogue phim. Nên loại nếu G1 yêu cầu quote thật.
+P027_G3,Iron Man 3,keep,supported,not_applicable,✅,Có. House Party Protocol gọi rất nhiều bộ giáp Iron Man bay tới và chiến đấu ban đêm.
+P028_G3,The Matrix,keep,partly_supported,not_applicable,🟡,"Matrix có visual green digital code và thành phố simulated reality, nhưng không có một cảnh literal rõ kiểu “a city street physically filled with green code” như query. Là mô tả concept/composite."
+P031_G3,Forrest Gump,keep,partly_supported,not_applicable,🟡,"Các yếu tố đều có: Forrest trên bench, box chocolates, nói chuyện với strangers và feather. Nhưng feather + chocolates + toàn bộ mô tả là gộp các shot liền kề, không nhất thiết một frame duy nhất."
+P033_G1,City of God,exclude,contradicted,not_found,❌,Tôi không tìm thấy bằng chứng đáng tin cho câu “The world ain't no fairy tale” là dialogue của phim. Matcher của bạn cũng đang match sang đoạn hoàn toàn không liên quan. Nên reject quote này.
+P034_G3,Inception,keep,supported,not_applicable,✅,Đúng cảnh Ariadne/Cobb: city folds upward khi cô học cách điều khiển dream architecture.
+P037_G1,Interstellar,keep,partly_supported,verbatim,🟡,Có và rất gần nguyên văn. Amelia Brand nói tình yêu là thứ con người có thể cảm nhận vượt qua dimensions of time and space. Query đã rút gọn một chút.
+P038_G2,Forrest Gump,keep,supported,not_applicable,✅,Đúng premise/cấu trúc phim: Forrest ngồi ở bus stop kể cuộc đời và những sự kiện phi thường cho strangers.
+P041_G1,The Godfather,exclude,contradicted,not_found,⚪,"“I can't remember.” quá chung. Dù cụm này có thể xuất hiện đâu đó, không có đủ thông tin retrieval để xác định Godfather. Giữ `non_response_candidate`."
+P041_G2,The Godfather,exclude,contradicted,not_applicable,⚪,"“Quiet yet powerful.” chỉ là đánh giá/chủ quan, không mô tả plot, scene hay character đủ cụ thể. Nên loại khỏi retrieval evaluation."
+P041_G3,The Godfather,keep,supported,not_applicable,✅,"Có cảnh Vito Corleone chết trong vườn cà chua khi đang chơi với cháu Anthony. Query đúng nội dung, dù nó leak từ “Godfather”. ([The Seventies][10])"
+P044_G1,Spirited Away,keep,partly_supported,verbatim,🟡,"Theme/name memory đúng, nhưng “Remember your name, Chihiro” không phải exact dialogue nổi bật như vậy. Có các lời thoại về giữ/nhớ tên Chihiro và Haku. ([IMDb][11])"
+P045_G1,Harry Potter and the Half-Blood Prince,keep,partly_supported,verbatim,🟡,"Câu này thường gắn với Dumbledore/Half-Blood Prince, nhưng wording theo adaptation/subtitle có thể khác. Không nên đánh `exact_quote` nếu transcript collection của bạn không chứa nó."
+P045_G3,Harry Potter and the Half-Blood Prince,keep,supported,not_applicable,✅,"Đúng. Harry và Dumbledore vào cave, băng qua hồ tối và Inferi trồi lên khỏi nước."
+P046_G1,Iron Man 3,keep,supported,approximate,✅,Có. Tony nói ở cuối phim đại ý armor was never a distraction or a hobby; it was a cocoon. Excerpt của bạn thực chất đã tìm đúng đoạn.
+P047_G1,Parasite,keep,supported,approximate,✅,Có gần như chính xác: “Not rich but still nice. Nice because she's rich.” ([IMDb][12])
+P047_G3,Parasite,keep,partly_supported,not_applicable,🟡,"Hai môi trường luxury house vs cramped semi-basement chắc chắn tồn tại và là contrast trung tâm phim. Nhưng query mô tả sự tương phản khái niệm, không phải một shot duy nhất."
+P049_G1,The Lion King,keep,supported,verbatim,✅,"Có gần như nguyên văn. Rafiki nói quá khứ có thể đau, và ta có thể chạy khỏi nó hoặc học từ nó. ([IMDb][13])"
+P050_G2,Forrest Gump,keep,supported,not_applicable,✅,"Đúng tóm tắt Forrest: người có hạn chế trí tuệ nhưng tốt bụng, vô tình xuất hiện trong nhiều biến cố lịch sử và yêu Jenny."
+P050_G3,Forrest Gump,keep,supported,not_applicable,✅,Có. Feather bay xuống gần Forrest ở bench; dirty/running shoes là chi tiết hợp lý của visual sequence.
+P052_G2,Call Me by Your Name,keep,supported,not_applicable,✅,Đúng. Elio và Oliver có quan hệ tình cảm; sau đó Oliver báo rằng anh đính hôn với một phụ nữ.
+P053_G1,Iron Man 3,exclude,contradicted,not_found,❌ / ⚪,"“Iron Man 3: Tony” không phải query thực sự; chỉ title + character. Nên xem là nonresponsive/title leak, không dùng làm natural retrieval query."
+P053_G2,Iron Man 3,exclude,unknown,not_applicable,❌ / ⚪,“Iron Man 3: fly” tương tự: quá nghèo thông tin và leak title. Loại.
+P053_G3,Iron Man 3,exclude,contradicted,not_applicable,❌ / ⚪,“Iron Man 3: nigga” không mô tả nội dung phim/cảnh cần tìm và leak title. Loại hoàn toàn.
+P054_G1,Spirited Away,keep,supported,approximate,✅,Cùng trường hợp P022_G1. Có câu Zeniba gần như vậy. ([IMDb][14])
+P055_G2,Gone with the Wind,keep,supported,not_applicable,✅,"Đúng summary của Scarlett: mạnh mẽ, sống qua chiến tranh, mất mát, tình cảm phức tạp. ([IMDb][6])"
+P060_G1,City of God,keep,partly_supported,verbatim,🟡,"Duplicate của P004_G1. Target đúng, nhưng nên coi là paraphrase/subtitle variant chứ không exact."
+P061_G2,Iron Man 3,keep,supported,not_applicable,✅,"Đúng plot: Tony là inventor, đối đầu Mandarin/Killian và chịu anxiety/PTSD sau Battle of New York."
