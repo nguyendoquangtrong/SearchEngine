@@ -1,0 +1,20 @@
+{
+  "status": "user_reviewed_target_qrels",
+  "input_queries": 183,
+  "included_queries": 174,
+  "supported": 145,
+  "partly_supported": 29,
+  "excluded": [
+    "P009_G3",
+    "P010_G1",
+    "P027_G1",
+    "P033_G1",
+    "P041_G1",
+    "P041_G2",
+    "P053_G1",
+    "P053_G2",
+    "P053_G3"
+  ],
+  "label_source": "dataset owner's final review table",
+  "reporting_note": "Describe these as user-reviewed target labels. Independent double adjudication is still required for a claim of independently adjudicated ground truth."
+}

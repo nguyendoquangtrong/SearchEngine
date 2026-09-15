@@ -2,6 +2,8 @@ import os
 import math
 import json
 import pickle
+import shutil
+from pathlib import Path
 from PIL import Image
 import chromadb
 from sentence_transformers import SentenceTransformer
@@ -24,6 +26,8 @@ class DatabaseBuilder:
         print("="*50)
         
         existing_folders = set(os.listdir(MOVIE_FOLDERS)) if os.path.exists(MOVIE_FOLDERS) else set()
+        if not existing_folders:
+            raise RuntimeError('DataMovie is missing/empty. Import the existing Drive corpus first; metadata was not changed.')
         
         with open(RAW_JSON_PATH, 'r', encoding='utf-8') as f:
             raw_data = json.load(f)
@@ -63,6 +67,17 @@ class DatabaseBuilder:
         return cleaned_data
 
     def build_vector_db(self, cleaned_data):
+        if not cleaned_data:
+            raise ValueError('Refusing to build an empty corpus')
+        media_root = Path(MOVIE_FOLDERS)
+        folders = {normalize_name(p.name): p for p in media_root.iterdir() if p.is_dir()} if media_root.exists() else {}
+        for item in cleaned_data:
+            folder = folders.get(normalize_name(item['title']))
+            if folder is None:
+                raise RuntimeError(f"DataMovie incomplete for {item['title']}; database was not changed")
+            images = [p for p in (folder/'picture').glob('*') if p.suffix.lower() in {'.jpg','.jpeg','.png','.webp'}]
+            if not images:
+                raise RuntimeError(f"Missing media for {item['title']}; database was not changed")
         print("\n" + "="*50)
         print("⏳ BƯỚC 2: TẢI MÔ HÌNH VÀ KHỞI TẠO CHROMADB...")
         print("="*50)
@@ -82,7 +97,7 @@ class DatabaseBuilder:
         print("\n" + "="*50)
         print("⏳ BƯỚC 3: XỬ LÝ TEXT VÀ HÌNH ẢNH (SLIDING WINDOW)...")
         print("="*50)
-        docs, bm25_docs, txt_metas, txt_ids = [], [], [], []
+        docs, bm25_docs, bm25_metas, txt_metas, txt_ids = [], [], [], [], []
         folder_map = {normalize_name(f): f for f in os.listdir(MOVIE_FOLDERS)}
         
         total_clean = len(cleaned_data)
@@ -102,7 +117,7 @@ class DatabaseBuilder:
             if target_folder:
                 script_folder = os.path.join(MOVIE_FOLDERS, target_folder, 'script')
                 if os.path.exists(script_folder):
-                    for file_name in os.listdir(script_folder):
+                    for file_name in sorted(os.listdir(script_folder)):
                         if file_name.endswith('.txt'):
                             try:
                                 with open(os.path.join(script_folder, file_name), 'r', encoding='utf-8') as sf:
@@ -125,6 +140,8 @@ class DatabaseBuilder:
                                     
                                     docs.append(f"Context: {short_desc} | Dialogue: {chunk_text}")        
                                     bm25_docs.append(chunk_text)  
+                                    bm25_metas.append({"movie_name": title_goc, "type": "subtitle",
+                                                       "source_file": file_name, "filtered_line_start": j})
                                     txt_metas.append({"movie_name": title_goc, "type": "subtitle"})
                                     txt_ids.append(f"txt_{norm_title}_sub_chunk_{j}")
                                 # =========================================================
@@ -138,7 +155,12 @@ class DatabaseBuilder:
 
         print(f"\n📚 Đang lập chỉ mục từ khóa (BM25) cho {len(bm25_docs)} đoạn hội thoại...")
         bm25_model = BM25Okapi([tokenize(doc) for doc in bm25_docs])
-        with open(BM25_PATH, 'wb') as f: pickle.dump((bm25_model, txt_metas, docs), f)
+        assert len(bm25_docs) == len(bm25_metas) == bm25_model.corpus_size
+        if os.path.exists(BM25_PATH):
+            backup = BM25_PATH + '.before_rebuild'
+            if not os.path.exists(backup): shutil.copy2(BM25_PATH, backup)
+        with open(BM25_PATH + '.tmp', 'wb') as f: pickle.dump((bm25_model, bm25_metas, bm25_docs), f)
+        os.replace(BM25_PATH + '.tmp', BM25_PATH)
         print("✅ Lưu BM25 thành công!")
 
         print("\n🖼️ Đang quét đường dẫn Ảnh...")
@@ -152,12 +174,16 @@ class DatabaseBuilder:
             
             if target_folder:
                 pic_folder = os.path.join(MOVIE_FOLDERS, target_folder, 'picture')
+                frame_manifest = Path(MOVIE_FOLDERS) / target_folder / 'frames.json'
+                frame_times = {x['frame_id']: x['timestamp_seconds'] for x in json.loads(frame_manifest.read_text())} if frame_manifest.exists() else {}
                 if os.path.exists(pic_folder):
-                    for f_name in os.listdir(pic_folder):
+                    for f_name in sorted(os.listdir(pic_folder)):
                         f_path = os.path.join(pic_folder, f_name)
                         if os.path.isfile(f_path) and f_name.lower().endswith(valid_ext):
                             image_paths.append(f_path)
-                            img_metas.append({"movie_name": title_goc, "file_name": f_name})
+                            img_metas.append({"movie_name": title_goc, "file_name": f_name,
+                                              "timestamp_seconds": frame_times.get(f_name, self.frame_time_from_name(f_name)),
+                                              "timestamp_source": "manifest" if f_name in frame_times else "filename_unverified"})
                             img_ids.append(f"img_{normalize_name(title_goc)}_{len(image_paths)}")
                             img_count += 1
             
@@ -194,5 +220,16 @@ class DatabaseBuilder:
         print("\n🎉 HOÀN TẤT! DATABASE ĐÃ ĐƯỢC XÂY DỰNG BẰNG SLIDING WINDOW XONG!")
 
     def execute(self):
-        cleaned_data = self.clean_and_translate()
+        # Reuse the frozen metadata; translation must not silently change the corpus.
+        with open(CLEAN_EN_JSON_PATH, encoding='utf-8') as f:
+            cleaned_data = json.load(f)
         self.build_vector_db(cleaned_data)
+
+    @staticmethod
+    def frame_time_from_name(filename):
+        import re
+        match = re.fullmatch(r'frame_(\d+(?:\.\d+)?)s\.(?:jpg|jpeg|png|webp)', filename, re.IGNORECASE)
+        return float(match.group(1)) if match else -1.0
+
+if __name__ == '__main__':
+    DatabaseBuilder().execute()

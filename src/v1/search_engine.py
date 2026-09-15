@@ -1,20 +1,28 @@
 import pickle
+import json
 import chromadb
 import concurrent.futures
 from sentence_transformers import SentenceTransformer, CrossEncoder
 
-from core.config import BM25_PATH, CHROMA_HOST, CHROMA_PORT
+from core.config import BM25_PATH, CHROMA_HOST, CHROMA_PORT, CLEAN_EN_JSON_PATH
 from core.helpers import tokenize
 
 class MovieSearchEngine:
     def __init__(self):
         print("⏳ Đang tải Bộ não AI và kết nối Database...")
-        self.clip_model = SentenceTransformer('clip-ViT-B-32')
-        self.sbert_model = SentenceTransformer('all-MiniLM-L6-v2')
-        self.rerank_model = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
+        # The three models have already been cached locally. Avoid an online
+        # revision check at application startup, which can block on an unstable
+        # connection even though inference itself is entirely local.
+        self.clip_model = SentenceTransformer('clip-ViT-B-32', local_files_only=True)
+        self.sbert_model = SentenceTransformer('all-MiniLM-L6-v2', local_files_only=True)
+        self.rerank_model = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2', local_files_only=True)
 
         with open(BM25_PATH, 'rb') as f:
             self.bm25_model, self.bm25_meta, self.bm25_docs = pickle.load(f)
+        if not (self.bm25_model.corpus_size == len(self.bm25_meta) == len(self.bm25_docs)):
+            raise ValueError('BM25 index, metadata and documents are misaligned. Rebuild V1 before evaluation.')
+        with open(CLEAN_EN_JSON_PATH, encoding='utf-8') as f:
+            self.movie_summaries = {m['title']: m.get('content', '') for m in json.load(f)}
 
         self.chroma_client = chromadb.HttpClient(host=CHROMA_HOST, port=CHROMA_PORT)
         self.img_collection = self.chroma_client.get_collection("image_clip_collection")
@@ -84,9 +92,7 @@ class MovieSearchEngine:
         if not candidates: return []
 
         def get_fallback_context(movie_name):
-            for meta, doc in zip(self.bm25_meta, self.bm25_docs):
-                if meta['movie_name'] == movie_name and meta.get('type') == 'summary': return doc
-            return "No specific dialogue context found."
+            return self.movie_summaries.get(movie_name) or "No specific dialogue context found."
 
         final_scores = []
         for m in candidates:
